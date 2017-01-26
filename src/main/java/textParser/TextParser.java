@@ -9,14 +9,13 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextParser {
     private Map<String, List<String>> textLemms = new HashMap<>();
+
+    private static JLanguageTool langTool = new JLanguageTool(new Russian());
 
     public TextParser() {
     }
@@ -54,6 +53,10 @@ public class TextParser {
         }
     }
 
+    public static List<String> splitOnSentences(String text) {
+        return langTool.sentenceTokenize(text);
+    }
+
     private void pullLemmasFromText(JLanguageTool langTool, String text) throws IOException {
 
         List<String> sentences = langTool.sentenceTokenize(text);
@@ -71,5 +74,13 @@ public class TextParser {
 //            }
         }
         textLemms.put(text, lemmas);
+    }
+
+    public static List<String> splitOnWords(String sentence) throws IOException {
+        AnalyzedTokenReadings[] analyzedTokens = langTool.getAnalyzedSentence(sentence).getTokensWithoutWhitespace();
+        return Arrays.stream(analyzedTokens)
+                .filter((r) -> !r.getToken().equals(""))
+                .map((r) -> r.getToken().toLowerCase())
+                .collect(Collectors.toList());
     }
 }

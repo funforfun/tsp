@@ -1,32 +1,31 @@
 
 import dbExecutor.TExecutor;
 import dbService.DBService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.postgresql.Driver;
+import syntaxGraph.SyntaxGraphBuilder;
 import textParser.TextParser;
 
 import java.sql.*;
 
 public class EnterPoint {
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, InterruptedException {
-        String testText = "Папа пошел в лес. Он там увидел грибы.";
-        TextParser textParser = new TextParser();
-        textParser.run(testText);
-        Thread.sleep(10000);
-        Driver driver = (Driver) Class.forName("org.postgresql.Driver").newInstance();
-        DriverManager.registerDriver(driver);
+    private static final Logger LOGGER = LogManager.getLogger(EnterPoint.class.getName());
 
-        StringBuilder url = new StringBuilder();
 
-        url
-                .append("jdbc:postgresql://")    //db type
-                .append("dev-db.mivar.pro:")       //host name
-                .append("5432/")        //port
-                .append("dev_alpha?")      //db name
-                .append("user=postgres&")      //login
-                .append("password=@Mivar123User@");  //password
+    public static void main(String[] args) throws Exception {
 
-        Connection connection = DriverManager.getConnection(url.toString());
+//        LOGGER.debug("Debug Message Logged !!!");
+//        LOGGER.info("Info Message Logged !!!");
+//        LOGGER.error("Error Message Logged !!!", new NullPointerException("NullError"));
 
+        String testText = "Папа и папа пошел в лес. Он там увидел грибы.";
+        SyntaxGraphBuilder builder = new SyntaxGraphBuilder();
+        builder.run(testText);
+//        TextParser textParser = new TextParser();
+//        textParser.run(testText);
+        Connection connection = getConnection();
+//        Thread.sleep(10000);
 
 
         // 10 terms
@@ -34,6 +33,7 @@ public class EnterPoint {
         // word
         testQuery2(connection);
 
+        LOGGER.info("testQuery2");
 //        Statement stmt = connection.createStatement();
 //        String select = "SELECT * FROM semantic.terms LIMIT 10;";
 //        ResultSet result = stmt.executeQuery(select);
@@ -60,8 +60,31 @@ public class EnterPoint {
 //        dbService.printConnectInfo();
     }
 
+    private static Connection getConnection() throws Exception {
+
+        Driver driver = (Driver) Class.forName("org.postgresql.Driver").newInstance();
+        DriverManager.registerDriver(driver);
+
+        StringBuilder url = new StringBuilder();
+
+        url
+                .append("jdbc:postgresql://")    //db type
+                .append("dev-db.mivar.pro:")       //host name
+                .append("5432/")        //port
+                .append("dev_alpha?")      //db name
+                .append("user=postgres&")      //login
+                .append("password=@Mivar123User@");  //password
+
+
+        LOGGER.info("Trying to get connection...");
+        Connection connection = DriverManager.getConnection(url.toString());
+        LOGGER.info("Get connection.");
+        return connection;
+    }
+
     private static void testQuery2(Connection connection) throws SQLException {
 
+        LOGGER.info("testQuery2");
         String resultString = TExecutor.execQuery(
                 connection,
                 "" +
@@ -77,7 +100,7 @@ public class EnterPoint {
                         str.append(result.getString(2));
                         str.append("\n*********************************");
                     }
-                    return  str.toString();
+                    return str.toString();
                 });
         System.out.println(resultString);
     }
@@ -112,7 +135,7 @@ public class EnterPoint {
                         str.append(result.getString(10));
                         str.append("\n*********************************");
                     }
-                    return  str.toString();
+                    return str.toString();
                 });
         System.out.println(resultString);
     }

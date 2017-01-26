@@ -47,13 +47,12 @@ public class TExecutor {
     }
 
     public static <T> T execQuery(Connection connection, String query, TResultHandler<T> handler) throws SQLException {
-
-        // new
+//        T value;
         try (Statement statement = connection.createStatement(); ResultSet result = statement.executeQuery(query)) {
-            // TODO: будет ли действительно закрыто, если внутри try находится return?
+//            value = handler.handle(result);
             return handler.handle(result);
         }
-
+//        return value;
 
         // old
 //        Statement statement = connection.createStatement();
