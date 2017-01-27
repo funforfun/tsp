@@ -5,27 +5,28 @@ import java.util.Map;
 
 public class TExecutor {
 
-    public static void execUpdate(Connection connection, String[] updates) {
-        try {
-            connection.setAutoCommit(false);
-            for (String update : updates) {
-                Statement statement = connection.createStatement();
-                statement.execute(update);
-                statement.close();
-            }
-            connection.commit();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ignore) {
-            }
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public static void execUpdate(Connection connection, String[] updates) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+//        try {
+//            connection.setAutoCommit(false);
+//            for (String update : updates) {
+//                Statement statement = connection.createStatement();
+//                statement.execute(update);
+//                statement.close();
+//            }
+//            connection.commit();
+//        } catch (SQLException e) {
+//            try {
+//                connection.rollback();
+//            } catch (SQLException ignore) {
+//            }
+//        } finally {
+//            try {
+//                connection.setAutoCommit(true);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public static void execUpdate(Connection connection, Map<Integer, String> idToName) throws UnsupportedOperationException {
@@ -52,14 +53,6 @@ public class TExecutor {
 //            value = handler.handle(result);
             return handler.handle(result);
         }
-//        return value;
-
-        // old
-//        Statement statement = connection.createStatement();
-//        ResultSet result = statement.executeQuery(query);
-//        T value = handler.handle(result);
-//        result.close();
-//        statement.close();
 //        return value;
     }
 

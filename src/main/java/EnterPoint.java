@@ -19,12 +19,13 @@ public class EnterPoint {
 //        LOGGER.info("Info Message Logged !!!");
 //        LOGGER.error("Error Message Logged !!!", new NullPointerException("NullError"));
 
+        Connection connection = getConnection();
         String testText = "Папа и папа пошел в лес. Он там увидел грибы.";
-        SyntaxGraphBuilder builder = new SyntaxGraphBuilder();
+        SyntaxGraphBuilder builder = new SyntaxGraphBuilder(connection);
+
         builder.run(testText);
 //        TextParser textParser = new TextParser();
 //        textParser.run(testText);
-        Connection connection = getConnection();
 //        Thread.sleep(10000);
 
 
@@ -85,20 +86,33 @@ public class EnterPoint {
     private static void testQuery2(Connection connection) throws SQLException {
 
         LOGGER.info("testQuery2");
+//        String query = "SELECT * " +
+//                        "FROM words.mwords " +
+//                        "WHERE word = 'пошел'" +
+//                        "LIMIT 10;";
+        String query =
+                "with swords as (select unnest(array['папа', 'пошел', 'в', 'лес']) word )\n" +
+                        "    select         s.word, mw.id as mword_id, f.id as form_id, mw2.word, f.values_agg, (select array_agg(value) from values where id in (select unnest(f.values_agg) ) )  as values\n" +
+                        "        from     swords s\n" +
+                        "            left join mwords     mw  on s.word = mw.word\n" +
+                        "            left join forms     f   on mw.id = f.mword_id\n" +
+                        "            left join mwords     mw2 on f.initial_form_id = mw2.id";
         String resultString = TExecutor.execQuery(
                 connection,
-                "" +
-                        "SELECT * FROM words.mwords " +
-                        "WHERE word = 'пойти'" +
-                        "LIMIT 10;",
+                query,
                 (result) -> {
                     StringBuilder str = new StringBuilder();
                     while (result.next()) {
-                        str.append("\n");
                         str.append(result.getString(1));
-                        str.append("\n");
+                        str.append("\t\t|\t\t");
                         str.append(result.getString(2));
-                        str.append("\n*********************************");
+                        str.append("\t\t|\t\t");
+                        str.append(result.getString(3));
+                        str.append("\t\t|\t\t");
+                        str.append(result.getString(4));
+                        str.append("\t\t|\t\t");
+                        str.append(result.getString(5));
+                        str.append("\n");
                     }
                     return str.toString();
                 });
