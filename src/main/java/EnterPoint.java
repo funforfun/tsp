@@ -19,11 +19,11 @@ public class EnterPoint {
 
         url
                 .append("jdbc:postgresql://")    //db type
-                .append("dev-db.mivar.pro:")       //host name
-                .append("5432/")        //port
-                .append("dev_alpha?")      //db name
-                .append("user=postgres&")      //login
-                .append("password=@Mivar123User@");  //password
+                .append("example:")       //host name
+                .append("111/")        //port
+                .append("dev_db?")      //db name
+                .append("user=...&")      //login
+                .append("password=...");  //password
 
         Connection connection = DriverManager.getConnection(url.toString());
 
