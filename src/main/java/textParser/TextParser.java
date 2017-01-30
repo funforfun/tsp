@@ -10,6 +10,7 @@ import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class TextParser {
@@ -76,11 +77,11 @@ public class TextParser {
         textLemms.put(text, lemmas);
     }
 
-    public static List<String> splitOnWords(String sentence) throws IOException {
+    public static LinkedList<String> splitOnWords(String sentence) throws IOException {
         AnalyzedTokenReadings[] analyzedTokens = langTool.getAnalyzedSentence(sentence).getTokensWithoutWhitespace();
         return Arrays.stream(analyzedTokens)
                 .filter((r) -> !r.getToken().equals(""))
                 .map((r) -> r.getToken().toLowerCase())
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 }

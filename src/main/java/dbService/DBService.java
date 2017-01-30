@@ -2,6 +2,9 @@ package dbService;
 
 //import dbService.dao.UsersDAO;
 //import dbService.dataSets.UsersDataSet;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,11 +13,23 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.service.ServiceRegistry;
+import org.postgresql.Driver;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import resource.DBConnection;
+import resource.ResourcesMap;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBService {
+    private static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
     private static final String hibernate_show_sql = "false";
     private static final String hibernate_hbm2ddl_auto = "validate";
 
@@ -41,6 +56,7 @@ public class DBService {
         return configuration;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     private Configuration getH2Configuration() {
         Configuration configuration = new Configuration();
 //        configuration.addAnnotatedClass(UsersDataSet.class);
@@ -59,10 +75,8 @@ public class DBService {
         Configuration configuration = new Configuration();
 //        configuration.addAnnotatedClass(UsersDataSet.class);
 
-//        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         configuration.setProperty("hibernate.connection.driver", "org.postgresql.Driver");
-        // + /dev_alpha
         configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://dev-db.mivar.pro:5432");
         configuration.setProperty("hibernate.connection.username", "postgres");
         configuration.setProperty("hibernate.connection.password", "@Mivar123User@");
@@ -109,6 +123,30 @@ public class DBService {
 //            throw new DBException(e);
 //        }
 //    }
+
+
+    public static Connection getConnection() throws Exception {
+        DBConnection dbConnection = (DBConnection) ResourcesMap.get(DBConnection.class);
+        return dbConnection.getConnection();
+//        Driver driver = (Driver) Class.forName("org.postgresql.Driver").newInstance();
+//        DriverManager.registerDriver(driver);
+//
+//        StringBuilder url = new StringBuilder();
+//
+//        url
+//                .append("jdbc:postgresql://")    //db type
+//                .append("dev-db.mivar.pro:")       //host name
+//                .append("5432/")        //port
+//                .append("dev_alpha?")      //db name
+//                .append("user=postgres&")      //login
+//                .append("password=@Mivar123User@");  //password
+//
+//
+//        LOGGER.info("Trying to get connection...");
+//        Connection connection = DriverManager.getConnection(url.toString());
+//        LOGGER.info("Get connection.");
+//        return connection;
+    }
 
     public void printConnectInfo() {
         try {

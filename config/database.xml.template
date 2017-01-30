@@ -1,0 +1,9 @@
+<class type="resource.DBConnection">
+    <driver></driver>
+    <dbType></dbType>
+    <host></host>
+    <port></port>
+    <dbName></dbName>
+    <login></login>
+    <password></password>
+</class>
