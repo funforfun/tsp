@@ -1,11 +1,10 @@
 package syntaxGraph.builder.constructorType;
 
 import dbExecutor.TExecutor;
-import org.apache.commons.lang.math.IntRange;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import syntaxGraph.builder.Sentence;
-import syntaxGraph.builder.SyntaxGraphBuilder;
+import syntaxGraph.components.Sentence;
+import syntaxGraph.builder.Builder;
 import syntaxGraph.components.Edge;
 import syntaxGraph.components.SentenceWord;
 import syntaxGraph.components.SyntaxGraph;
@@ -17,9 +16,9 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PlainGraph {
+public class PlainGraph implements IConstructorGraph {
 
-    private static final Logger LOGGER = LogManager.getLogger(SyntaxGraphBuilder.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(Builder.class.getName());
 
     private final Connection connection;
 
@@ -27,7 +26,7 @@ public class PlainGraph {
         this.connection = connection;
     }
 
-    public void run(String text) throws Exception {
+    public Map<Sentence, SyntaxGraph> run(String text) throws Exception {
         LOGGER.info("Start building syntax graphs...");
         List<String> sentencesStr = TextParser.splitOnSentences(text);
         List<Sentence> sentences = new ArrayList<>();
@@ -43,7 +42,7 @@ public class PlainGraph {
             sentenceToSyntaxGraph.putIfAbsent(sentence, buildFlatSyntaxGraph(wordsFromSentence, wordToInitialForms));
         }
         LOGGER.info("Syntax graphs builds");
-        int x = 1;
+        return sentenceToSyntaxGraph;
     }
 
     private SyntaxGraph buildFlatSyntaxGraph(List<String> wordsFromSentence, Map<String, Set<String>> wordToInitialForms) {

@@ -1,4 +1,4 @@
-package syntaxGraph.builder;
+package syntaxGraph.components;
 
 public class Sentence {
     private final int id;
