@@ -1,9 +1,0 @@
-<class type="resource.DBConnection">
-    <driver>org.postgresql.Driver</driver>
-    <dbType>postgresql</dbType>
-    <host>dev-db.mivar.pro</host>
-    <port>5432</port>
-    <dbName>dev_alpha</dbName>
-    <login>postgres</login>
-    <password>@Mivar123User@</password>
-</class>
