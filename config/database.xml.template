@@ -1,4 +1,4 @@
-<class type="resource.DBConnection">
+<class type="ru.mivar.syntax.resource.DBConnection">
     <driver></driver>
     <dbType></dbType>
     <host></host>
