@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class LinearGraph implements IConstructorGraph {
 
-    private static final Logger LOGGER = LogManager.getLogger(Builder.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(LinearGraph.class.getName());
 
     private final Connection connection;
 
