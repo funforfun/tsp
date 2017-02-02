@@ -2,7 +2,7 @@ package ru.mivar.syntax.syntaxGraph.builder;
 
 
 import ru.mivar.syntax.syntaxGraph.builder.constructorType.NormalGraph;
-import ru.mivar.syntax.syntaxGraph.builder.constructorType.PlainGraph;
+import ru.mivar.syntax.syntaxGraph.builder.constructorType.LinearGraph;
 import ru.mivar.syntax.syntaxGraph.components.Sentence;
 import ru.mivar.syntax.syntaxGraph.components.SyntaxGraph;
 
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Builder {
 
-    public static Map<Sentence, SyntaxGraph> buildPlainGraph(String text, Connection connection) throws Exception {
-        PlainGraph plainGraph = new PlainGraph(connection);
-        return plainGraph.run(text);
+    public static Map<Sentence, SyntaxGraph> buildLinearGraph(String text, Connection connection) throws Exception {
+        LinearGraph linearGraph = new LinearGraph(connection);
+        return linearGraph.run(text);
     }
 
     public static Map<Sentence, SyntaxGraph> buildNormalGraph(String text) throws Exception {

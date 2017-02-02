@@ -1,5 +1,6 @@
 package ru.mivar.syntax.syntaxGraph.components;
 
+// TODO: переименовать -> Word
 public class SentenceWord {
     private final String word;
     private final String initialForm;

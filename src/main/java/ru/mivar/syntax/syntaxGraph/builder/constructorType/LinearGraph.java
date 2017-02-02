@@ -12,13 +12,13 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PlainGraph implements IConstructorGraph {
+public class LinearGraph implements IConstructorGraph {
 
     private static final Logger LOGGER = LogManager.getLogger(Builder.class.getName());
 
     private final Connection connection;
 
-    public PlainGraph(Connection connection) {
+    public LinearGraph(Connection connection) {
         this.connection = connection;
     }
 

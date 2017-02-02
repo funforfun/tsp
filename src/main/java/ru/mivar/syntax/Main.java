@@ -20,7 +20,7 @@ public class Main {
         LOGGER.info("Start app");
         initResources();
         String testText = "Папа и папа пошел в лес. Он там увидел грибы. Папа и папа пошел в лес. Папа и папа пошел в лес.";
-        Map<Sentence, SyntaxGraph> map = Builder.buildPlainGraph(testText, DBService.getConnection());
+        Map<Sentence, SyntaxGraph> map = Builder.buildLinearGraph(testText, DBService.getConnection());
         LOGGER.info("End app");
     }
 
