@@ -20,15 +20,20 @@ public class SyntaxGraph {
     }
 
     void addVertex(Vertex vertex) {
+        vertices.add(vertex);
+        putInWordVerticesMap(vertex);
+    }
+
+    void addEdge(Edge edge) {
+        edges.add(edge);
+    }
+
+    private void putInWordVerticesMap(Vertex vertex) {
         SentenceWord sentenceWord = vertex.getWord();
         if (!wordVerticesMap.containsKey(sentenceWord)) {
             wordVerticesMap.put(sentenceWord, new HashSet<>());
         }
         wordVerticesMap.get(sentenceWord).add(vertex);
-    }
-
-    void addEdge(Edge edge) {
-        edges.add(edge);
     }
 
     public Map<SentenceWord, Set<Vertex>> getWordVerticesMap() {

@@ -10,8 +10,8 @@ public class Vertex {
 
     public Vertex(SentenceWord word, SyntaxGraph graph) {
         this.word = word;
-        graph.addVertex(this);
         this.graph = graph;
+        graph.addVertex(this);
     }
 
     public SyntaxGraph getGraph() {
